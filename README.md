@@ -15,6 +15,8 @@ If you have the `ch57x-keyboard-tool` binary installed, the GUI can also
 **validate** and **upload** your configuration to the device directly,
 without leaving the app.
 
+![Macropad Config GUI](preview.png)
+
 ## Features
 
 - Visual pad editor — set rows (1–8), columns (1–8), knobs (0–4); click
