@@ -120,6 +120,12 @@ The codebase keeps a strict split:
   vendored copy of the upstream example, used as the golden round-trip
   fixture so the suite needs no external checkout.
 
+## Roadmap
+
+- **Self-contained single `.exe`** (via PyInstaller) so it can run without a
+  Python install — planned if there's community interest.
+- Verify and smooth out **macOS/Linux** usage (currently Windows-tested only).
+
 ## License
 
 Released under the **GNU General Public License v3.0 or later** — see
