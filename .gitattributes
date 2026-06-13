@@ -1,0 +1,11 @@
+# Normalize text files to LF in the repository; let Git convert on
+# checkout per platform.
+* text=auto
+
+# Windows batch files must stay CRLF to run correctly.
+*.bat text eol=crlf
+
+# The golden round-trip test asserts this file is byte-for-byte stable.
+# Treat it as binary so its exact bytes (CRLF) survive on every clone,
+# regardless of the user's core.autocrlf setting.
+tests/fixtures/example-mapping.yaml -text
