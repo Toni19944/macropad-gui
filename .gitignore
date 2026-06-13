@@ -39,11 +39,11 @@ Thumbs.db
 .vscode/
 
 # --- Spec-kit / Claude Code tooling --------------------------------------
-# Framework machinery used to develop this project (the spec-driven
-# workflow + Claude Code skills). The design docs themselves live in
-# specs/ and are kept under version control.
+# Framework machinery and design docs used to develop this project (the
+# spec-driven workflow + Claude Code skills); not part of the shipped tool.
 /.specify/
 /.claude/
+/specs/
 
 # --- Local scratch -------------------------------------------------------
 New Text Document.txt
