@@ -25,7 +25,7 @@ Repository = "https://github.com/Toni19944/macropad-gui"
 macropad-gui = "macropad_gui.__main__:main"
 
 [project.optional-dependencies]
-dev = ["pytest>=7"]
+dev = ["pytest>=7", "pyinstaller>=6"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

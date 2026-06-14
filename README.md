@@ -48,32 +48,48 @@ Device** / **Validate** buttons to work. On Windows, uploading requires
 the [UsbDk](https://github.com/daynix/UsbDk) driver — install it before
 trying to upload, otherwise the tool cannot open the device.
 
-## Installation
+## Download (Windows `.exe`)
 
-Clone this repository, then install the package (this pulls in
-`ruamel.yaml`):
+If you just want to run the tool on Windows without installing Python, grab
+the self-contained `macropad-gui.exe` from the
+[Releases](https://github.com/Toni19944/macropad-gui/releases) page and
+double-click it — no Python, no dependencies, no install steps. It is a single
+windowed app; the `ch57x-keyboard-tool` binary and **UsbDk** are still only
+needed for the optional **Validate** / **Upload to Device** features.
 
-```powershell
-git clone https://github.com/<your-username>/macropad-gui.git
+The `.exe` is an **optional convenience build**. Running from source (below) is
+the primary, canonical way to use the project and is fully supported on
+Windows, macOS, and Linux. The `.exe` is released under the same GPLv3 license;
+the [LICENSE](LICENSE) text is conveyed with each release and the corresponding
+source is this public repository.
+
+## Installation (from source — all platforms)
+
+Running from source is the canonical path and works on **Windows, macOS, and
+Linux**. Clone the repository and install the package (this pulls in
+`ruamel.yaml`); a virtual environment is recommended:
+
+```bash
+git clone https://github.com/Toni19944/macropad-gui.git
 cd macropad-gui
-python -m pip install -e .
-```
 
-Using a virtual environment is recommended:
-
-```powershell
 python -m venv .venv
-.venv\Scripts\Activate.ps1      # PowerShell;  on macOS/Linux: source .venv/bin/activate
+# Windows (PowerShell):
+.venv\Scripts\Activate.ps1
+# macOS / Linux:
+source .venv/bin/activate
+
 python -m pip install -e .
 ```
 
 ## Running
 
-```powershell
+```bash
 python -m macropad_gui
 ```
 
-On Windows you can also double-click `launch_macropad_gui.bat`.
+On Windows you can also double-click `launch_macropad_gui.bat`. Packaging is
+never required to run the app — the `.exe` is only a convenience.
 
 ## Usage
 
@@ -106,10 +122,13 @@ clone and build the tool inside this folder so the `target/` paths match.
 
 ## Development
 
-```powershell
-python -m pip install -e ".[dev]"     # installs pytest
-pytest
+```bash
+python -m pip install -e ".[dev]"     # installs pytest + pyinstaller
+pytest                                # headless core suite (Windows/macOS/Linux)
 ```
+
+GitHub Actions runs `pip install -e .[dev]` + `pytest` on macOS and Linux for
+every push and pull request (`.github/workflows/ci.yml`).
 
 The codebase keeps a strict split:
 
@@ -120,16 +139,40 @@ The codebase keeps a strict split:
   vendored copy of the upstream example, used as the golden round-trip
   fixture so the suite needs no external checkout.
 
+## Building the Windows `.exe`
+
+The standalone Windows executable is built with
+[PyInstaller](https://pyinstaller.org/) from a committed spec. On a Windows
+host with the dev dependencies installed (`pip install -e .[dev]`), run the one
+documented command from the repo root:
+
+```powershell
+./packaging/build_windows.ps1
+```
+
+This produces a single self-contained `dist/macropad-gui.exe` (no loose files
+needed beside it) with the application name and version embedded in its file
+properties. Re-running after editing the source rebuilds the `.exe` with no
+reconfiguration. The build definition lives in `packaging/`
+(`macropad_gui.spec`, `version_info.txt`, `build_windows.ps1`); `dist/` and
+`build/` are gitignored. Building is Windows-only and never modifies `src/`,
+`tests/`, or the `ch57x-keyboard-tool/` reference clone.
+
 ## Roadmap
 
-- **Self-contained single `.exe`** (via PyInstaller) so it can run without a
-  Python install — planned if there's community interest.
-- Verify and smooth out **macOS/Linux** usage (currently Windows-tested only).
+- Verify and smooth out **macOS/Linux** usage (currently Windows-tested only);
+  CI already exercises the core suite on both.
 
 ## License
 
 Released under the **GNU General Public License v3.0 or later** — see
 [LICENSE](LICENSE).
+
+The distributed Windows `.exe` is covered by the same license. Each release
+conveys the full [LICENSE](LICENSE) text alongside the binary (as a release
+asset and/or in the release notes), and the complete corresponding source is
+this public repository — satisfying GPLv3's conveyance terms for the bundled
+build.
 
 ## Acknowledgements
 

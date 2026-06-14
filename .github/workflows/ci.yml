@@ -1,0 +1,32 @@
+name: CI
+
+# Verifies the from-source build and the headless core test suite on macOS
+# and Linux on every push and pull request (FR-015, FR-016, SC-007, SC-008).
+# Windows packaging is verified manually (see specs/.../quickstart.md).
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.11"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install from source (build verification)
+        run: python -m pip install -e .[dev]
+
+      - name: Run headless core test suite
+        run: pytest
